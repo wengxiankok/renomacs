@@ -1,0 +1,21 @@
+.btn {
+    border-radius: 20px;
+    padding: 14px 30px;
+    font-size: 16px;
+    border: none;
+    transition: 0.3s all ease;
+
+    &:hover {
+        background-color: $hover-blue;
+    }
+
+    &-primary {
+        background-color: $cta-green;
+        color: $white;
+    }
+
+    &-secondary {
+        background-color: $accent-brown;
+        color: $white;
+    }
+}

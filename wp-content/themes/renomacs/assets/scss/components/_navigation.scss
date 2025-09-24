@@ -1,0 +1,41 @@
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    transition: 0.3s all ease;
+    
+    .rm-navigation {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        list-style: none;
+        padding: 30px 0;
+        gap: 20px;
+        margin-bottom: 0;
+    
+        li {
+            a {
+                text-decoration: none;
+                color: $white;
+                transition: 0.5s all ease-in-out;
+    
+                &:hover {
+                    color: $hover-blue;
+                }
+            }
+        }
+    }
+
+    &.scrolled {
+        background-color: rgba($cta-green, 1);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        .rm-navigation {
+            padding: 20px 0;
+        }
+    }
+}
