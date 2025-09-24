@@ -1,0 +1,39 @@
+// Loop through each breakpoint to create grid column class
+// Generate `.grid-{breakpoint}-*` classes
+// eg. grid-md-5, display grid in 5 column
+
+$grid-columns: 5;
+
+.d-grid {
+    display: grid;
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+    @include media-breakpoint-up($breakpoint, $grid-breakpoints) { 
+        @for $i from 1 through $grid-columns {
+          .grid#{$infix}-#{$i} {
+              grid-template-columns: repeat($i, 1fr);
+          }
+        }
+    }
+
+    // Gutters
+    //
+    // Make use of `.g-*`, `.gx-*` or `.gy-*` utilities to change spacing between the columns.
+    .d-grid {
+        
+        @each $key, $value in $gutters {
+            &.g#{$infix}-#{$key},
+            &.gx#{$infix}-#{$key} {
+                column-gap: var(--#{$variable-prefix}gutter-x);
+            }
+            
+            &.g#{$infix}-#{$key},
+            &.gy#{$infix}-#{$key} {
+                row-gap: var(--#{$variable-prefix}gutter-y);
+            }
+        }
+    }
+}

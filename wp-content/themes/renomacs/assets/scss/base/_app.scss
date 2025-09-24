@@ -1,0 +1,11 @@
+$monitor: "(min-width: 1601px)";
+$desktop: "(min-width:1081px)";
+$tablet: "(max-width: 1500px)";
+$mobileLG: "(max-width: 1080px)";
+$mobileMD: "(max-width: 990px)";
+$mobile: "(max-width: 667px)";
+
+html {
+	scroll-behavior: smooth;
+	scroll-padding-top: 200px;
+}
