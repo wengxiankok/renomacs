@@ -27,3 +27,64 @@
         z-index: 2;
     }
 }
+
+/* Icon Grid - blocks/lazyblock-renomax-icon-grid */
+.grid-icons {
+    .icon {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+/* Carousel - blocks/lazyblock-renomax-carousel */
+.swiper {
+    padding-bottom: 60px;
+}
+
+.swiper-slide {
+    img {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
+        object-fit: cover;
+    }
+}
+
+.swiper-horizontal {
+    .swiper-button-prev,
+    .swiper-button-next {
+        right: 2rem;
+        left: unset;
+        bottom: 20px;
+        top: unset;
+        width: 40px;
+        height: 40px;
+        background-color: $cta-green;
+        padding: 10px;
+        border-radius: 50%;
+        color: $white;
+        transition: 0.5s all ease-in-out;
+
+        .swiper-navigation-icon {
+            transition: 0.3s all ease-in-out;
+        }
+
+        &:hover {
+            background-color: $hover-blue;
+
+            .swiper-navigation-icon {
+                transform: scale(1.1);
+            }
+        }
+    }
+
+    .swiper-button-prev {
+        right: 5.5rem;
+
+        &:hover {
+            .swiper-navigation-icon {
+                transform: rotate(180deg) scale(1.1);
+            }
+        }
+    }
+}

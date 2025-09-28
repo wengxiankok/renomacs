@@ -39,3 +39,46 @@ header {
         }
     }
 }
+
+footer {
+    background-color: $text-gray;
+    color: $white;
+
+    .contact-information {
+        gap: 15px;
+
+        p {
+            margin-bottom: 0;
+        }
+    }
+
+    ul {
+        list-style: none;
+        padding: 0; 
+        display: inline-flex;
+        flex-direction: column;
+        gap: 15px;
+
+        li {
+            a {
+                text-decoration: none;
+                color: $white;
+                transition: 0.5s all ease-in-out;
+
+                &:hover {
+                    color: $hover-blue;
+                }
+            }
+        }
+    }
+
+    .rm-footer {
+        margin: auto;
+
+        &:not(:first-child) {
+            li.menu-item {
+                margin-top: auto;
+            }
+        }
+    }
+}

@@ -1,5 +1,82 @@
+#back-to-top {
+    position: fixed;
+    bottom: 1rem;
+    right: 2rem;
+    border-radius: 50%;
+    background-color: $brand-blue;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 99;
+    
+    &::after {
+        content: "\2191";
+        font-size: 20px;
+        color: $white;
+        text-align: center;
+        vertical-align: middle;
+        display: inline-block;
+        position: relative;
+        padding: 8px;
+        margin: auto;
+        height: 100%;
+        width: 100%;
+        transition: 0.3s linear all;
+    }
+    
+    &:hover {
+        transform: translateY(-5px);
+
+        &::after {
+            transform: translateY(-2px);
+        }
+    }
+
+    &.show {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+#whatsapp-icon {
+    position: fixed;
+    bottom: 5rem;
+    right: 2rem;
+    border-radius: 50%;
+    background-color: #2db742;
+    width: 56px;
+    height: 56px;
+    cursor: pointer;
+    z-index: 99;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s linear all;
+
+    &::after {
+        content: "";
+        background: transparent url('../img/whatsapp-icon.svg') 50% no-repeat;
+        vertical-align: middle;
+        display: inline-block;
+        position: relative;
+        padding: 8px;
+        margin: auto;
+        height: 100%;
+        width: 100%;
+        transition: 0.3s linear all;
+
+    }
+    
+    &:hover {
+        transform: translateY(-5px);
+    }
+}
+
 .btn {
-    border-radius: 20px;
+    border-radius: 30px;
     padding: 14px 30px;
     font-size: 16px;
     border: none;
@@ -18,4 +95,20 @@
         background-color: $accent-brown;
         color: $white;
     }
+}
+
+.text-eyebrow {
+    text-transform: uppercase;
+    color: $cta-green;
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-size: 14px;
+}
+
+.mh-50 {
+    max-height: 50%;
+}
+
+.aspect-ratio-16-9 {
+    aspect-ratio: 16 / 9;
 }
