@@ -4,10 +4,10 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta name="apple-mobile-web-app-capable" content="yes">
+	<?php
+		wp_head();
+	?>
 	<link rel="stylesheet" href="<?= bloginfo('template_url') ?>/assets/css/main.css">
-<?php
-	wp_head();
-?>
 
 </head>
 

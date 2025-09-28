@@ -27,8 +27,8 @@
             </footer>
         </main>
 
-        <script src="<?= bloginfo('template_url') ?>/assets/js/min/app.js" charset="utf-8"></script>
         <?php wp_footer(); ?>
+        <script src="<?= bloginfo('template_url') ?>/assets/js/min/app.js" charset="utf-8"></script>
 
     </body>
 

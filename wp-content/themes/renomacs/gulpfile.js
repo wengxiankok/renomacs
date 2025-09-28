@@ -39,11 +39,19 @@ function minifyScripts() {
     .pipe(gulp.dest('assets/js/min'));
 }
 
+// ✅ Task: Copy Swiper CSS into assets/css/vendor
+function copySwiperCSS() {
+  return gulp.src('node_modules/swiper/swiper-bundle.min.css')
+    .pipe(gulp.dest('assets/css/vendor'));
+}
+
 // Combined single command
 gulp.task('minify-js', gulp.parallel(bundleApp, minifyScripts));
+gulp.task('build', gulp.parallel(bundleApp, minifyScripts, copySwiperCSS));
 
 // Watch (optional)
 gulp.task('watch', function () {
   gulp.watch('assets/js/app.js', bundleApp);
   gulp.watch(['assets/js/*.js', '!assets/js/app.js'], minifyScripts);
+  gulp.watch('node_modules/swiper/swiper-bundle.min.css', copySwiperCSS);
 });
