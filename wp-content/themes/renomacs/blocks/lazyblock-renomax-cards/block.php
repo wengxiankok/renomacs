@@ -15,7 +15,7 @@
         <?php endif; ?>
         <div class="row gap-4 justify-content-center">
             <?php foreach ($attributes['cards'] as $card) : ?>
-                <div class="col-10 <?php if (count($attributes['cards']) > 3) : echo 'col-md-4' ; elseif (count($attributes['cards']) === 3) : echo 'col-md-3' ; elseif (count($attributes['cards']) > 1) : echo 'col-md-5' ; else : echo 'col-md-6' ; endif; ?>">
+                <div class="col-12 <?php if (count($attributes['cards']) > 3) : echo 'col-md-4' ; elseif (count($attributes['cards']) === 3) : echo 'col-md-3' ; elseif (count($attributes['cards']) > 1) : echo 'col-md-5' ; else : echo 'col-md-6' ; endif; ?>">
                     <div class="card h-auto">
                         <?php
                             if ($card['image']) :

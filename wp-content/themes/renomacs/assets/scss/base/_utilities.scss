@@ -10,7 +10,7 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
-    z-index: 99;
+    z-index: 98;
     
     &::after {
         content: "\2191";
@@ -83,7 +83,7 @@
     transition: 0.3s all ease;
 
     &:hover {
-        background-color: $hover-blue;
+        background-color: $brand-blue;
     }
 
     &-primary {
@@ -92,8 +92,15 @@
     }
 
     &-secondary {
-        background-color: $accent-brown;
-        color: $white;
+        border: solid 1px $accent-brown;
+        background-color: transparent;
+        color: $accent-brown;
+
+        &:hover {
+            border: solid 1px $accent-brown;
+            background-color: $accent-brown;
+            color: $white;
+        }
     }
 }
 

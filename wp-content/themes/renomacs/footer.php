@@ -1,18 +1,25 @@
 
             <footer>
-                <div class="container d-flex justify-content-between pt-5 pb-4">
+                <div class="container d-flex flex-column flex-lg-row justify-content-lg-between pt-5 pb-4">
                     <div class="d-flex flex-column contact-information">
-                        <p class="h3 text-white pb-5">Renomax</p> <!-- Logo can go here -->
-                        <p>Address goes here</p>
-                        <p>Phone: (123) 456-7890</p>
-                        <p>Email:</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p class="h3 text-white">Renomax</p> <!-- Logo can go here -->
+                            <div class="btn btn-primary d-block d-lg-none">Get a Quote</div>
+                        </div>
+                        <div class="pt-2">
+                            <ul>
+                                <li>Address goes here</li>
+                                <li>Phone: (123) 456-7890</li>
+                                <li>Email:</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div>
+                    <div class="pt-4 pt-lg-0">
                         <?php
                             $vals = array(
                                 'theme_location' => 'footer-menu',
                                 'container' => '',
-                                'menu_class' => 'rm-footer',
+                                'menu_class' => 'rm-footer d-flex flex-row flex-lg-column',
                                 'depth' => 0,
                                 'echo' => true,
                             ); wp_nav_menu( $vals );
@@ -20,7 +27,7 @@
                     </div>
                 </div>
                 <div>
-                    <div class="container text-end pb-5">
+                    <div class="container text-lg-end pt-3 pt-lg-0 pb-3 pb-lg-5">
                         <p class="text-white mb-0">© <?php echo date("Y"); ?> Renomax. All rights reserved.</p>
                     </div>
                 </div>

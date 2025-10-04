@@ -13,7 +13,7 @@
                 <?php endif; ?>
             </div>
         <?php endif; ?>
-        <div class="row">
+        <div class="row gap-4 gap-lg-0">
             <?php foreach ($attributes['grid-items'] as $item) : ?>
                 <div class="col-12 <?php if (count($attributes['grid-items']) === 3 ) : echo 'col-md-4' ; else : echo 'col-md-6' ; endif;  ?> text-center">
                     <?php

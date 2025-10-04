@@ -11,14 +11,14 @@
                             alt="'.esc_attr( $attributes['image']['alt'] ).'"
                             width="'.($lbPic['width'] ?: '100').'"
                             height="'.($lbPic['height'] ?: '100').'"
-                            class="img-fluid p-4"
+                            class="img-fluid p-lg-4 rounded"
                         >';
                     ?>
                 </div>
             <?php endif; ?>
             <div class="<?php echo ($attributes['image']) ? 'col-md-6' : 'col-12'; ?> <?php if ($attributes['image-position'] === 'order-1') : echo 'order-2' ; else : echo 'order-1'; endif; ?>">
                 <?php if ($attributes['eyebrow'] || $attributes['header'] || $attributes['description']) : ?>
-                    <div class="pb-2">
+                    <div class="pb-2 pt-3 pt-lg-0">
                         <?php if ($attributes['eyebrow']) : ?>
                             <p class="text-eyebrow text-uppercase mb-2"><?php echo $attributes['eyebrow']; ?></p>
                         <?php endif; ?>
@@ -31,7 +31,7 @@
                     </div>
                 <?php endif; ?>
                 <?php if ($attributes['primary-cta-link'] || $attributes['secondary-cta-link']) : ?>
-                    <div class="d-flex pt-3 <?php if ($attributes['secondary-cta-link']) : echo 'flex-row gap-4' ; endif; ?>">
+                    <div class="d-flex flex-column pt-3 <?php if ($attributes['secondary-cta-link']) : echo 'flex-lg-row gap-4' ; endif; ?>">
                         <?php if ($attributes['primary-cta-link'] ): ?>
                             <a href="<?php echo $attributes['primary-cta-link']; ?>" class="btn btn-primary"><?php echo $attributes['primary-cta-text']; ?></a>
                         <?php endif; ?>

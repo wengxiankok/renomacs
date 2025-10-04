@@ -1,0 +1,157 @@
+.page-template-contact-form {
+  header {
+    background-color: $brand-blue;
+  }
+}
+
+.contact-form {
+  height: 100vh;
+  display: flex;
+
+  .contact-wrapper {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    padding-top: 10rem;
+  }
+}
+
+// ==== Form variables ====
+$form-border: #ccc;
+$form-focus: #0B3D91; // brand-blue
+$form-label: #4B5563; // text-gray
+$form-bg: #fff;
+$form-radius: .5rem;
+$form-gap: 1.25rem;
+
+// ==== Grid layout ====
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: $form-gap;
+  max-width: 900px;
+  margin: 2rem auto;
+}
+
+// ==== Form groups ====
+.form-group {
+  position: relative;
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 1rem .75rem .25rem;
+    border: 1px solid $form-border;
+    border-radius: $form-radius;
+    background: $form-bg;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color .25s;
+
+    &:focus {
+      border-color: $form-focus;
+    }
+
+    &:focus + label,
+    &:not(:placeholder-shown) + label {
+      top: .35rem;
+      font-size: .75rem;
+      color: $form-focus;
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  label {
+    position: absolute;
+    left: .75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    color: $form-label;
+    pointer-events: none;
+    transition: all .2s ease;
+    background: $form-bg;
+    padding: 0 .25rem;
+  }
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+// ==== Checkbox ====
+.form-check {
+  display: flex;
+  align-items: center;
+
+  input[type="checkbox"] {
+    margin-right: .5rem;
+    transform: scale(1.1);
+  }
+
+  .check-label {
+    font-size: .9rem;
+    color: $form-label;
+  }
+}
+
+// ==== Button ====
+.btn-submit {
+  padding: .75rem 1.5rem;
+  background: #28A745; // cta-green
+  color: $white;
+  border: none;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .25s ease;
+
+  &:hover,
+  &:focus-visible {
+    background: darken(#28A745, 6%);
+  }
+}
+
+// ==== Full-width rows (consent + submit) ====
+.form-check.full-width,
+.form-actions.full-width {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  margin-top: 0.75rem;
+}
+
+// ==== Submit button centered ====
+.form-actions {
+  justify-content: center; // ✅ center button
+  margin-top: 1.5rem;
+}
+
+/* ✅ Force single-column on mobile */
+@media (max-width: 768px) {
+    .contact-form {
+        height: auto;
+
+        .contact-wrapper {
+            padding-top: 8rem;
+        }
+    }
+
+  .form-grid {
+    grid-template-columns: 1fr; /* one column only */
+    gap: 1rem; /* tighter spacing */
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .btn-submit {
+    width: 100%; /* full width button */
+  }
+}

@@ -14,12 +14,19 @@ window.addEventListener('DOMContentLoaded', function() {
 
 function shrinkNavigation() {
     const nav = document.querySelector('header');
+    const navContactBtn = document.querySelector('.nav-contact');
 
     document.addEventListener('scroll', function() {
         if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
             nav.classList.add('scrolled');
+            if (navContactBtn) {
+                navContactBtn.classList.add('scrolled');
+            }
         } else {
             nav.classList.remove('scrolled');
+            if (navContactBtn) {
+                navContactBtn.classList.remove('scrolled');
+            }
         }
     });
 }
@@ -27,9 +34,15 @@ function shrinkNavigation() {
 function initSwiper() {
     const swiper = new Swiper('.swiper', {
         loop: true,
-        spaceBetween: 30,
-        slidesPerView: 4,
+        spaceBetween: 0,
+        slidesPerView: 1,
         modules: [ Navigation, Autoplay ],
+        breakpoints: {
+            992: {
+                spaceBetween: 30,
+                slidesPerView: 4,
+            }
+        },
         // autoplay: {
         //     delay: 3000,
         //     disableOnInteraction: false,

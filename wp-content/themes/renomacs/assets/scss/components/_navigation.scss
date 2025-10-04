@@ -27,16 +27,195 @@ header {
                     color: $hover-blue;
                 }
             }
+
+            &.nav-contact {
+                background-color: transparent;
+                border: solid 1px $cta-green;
+                
+                a {
+                    color: $cta-green;
+                }
+
+                &:hover {
+                    background-color: $cta-green;
+
+                    a {
+                        color: $white;
+                    }
+                }
+            }
         }
     }
 
     &.scrolled {
-        background-color: rgba($cta-green, 1);
+        background-color: rgba($brand-blue, 1);
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
         .rm-navigation {
             padding: 20px 0;
+
+            li.nav-contact {
+                border: solid 1px $cta-green;
+                background-color: $cta-green;
+                
+                a {
+                    color: $white;
+                }
+
+                &:hover {
+                    border: solid 1px $brand-blue;
+                    background-color: $brand-blue;
+                }
+            }
         }
+    }
+
+    .btn {
+        a {
+            &:hover {
+                color: $white !important;
+            }
+        }
+    }
+
+    /* ==== Hamburger ==== */
+    .nav-toggle { 
+        position: absolute; 
+        opacity: 0; 
+        pointer-events: none; 
+    }
+
+    .hamburger {
+        --bar-h: 2px;
+        --bar-w: 24px;
+        --gap: 6px;
+
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: var(--gap);
+        width: 40px;
+        height: 40px;
+        border-radius: .5rem;
+        cursor: pointer;
+        user-select: none;
+        outline: none;
+        background: transparent;
+        align-items: center;
+
+        .bar {
+            width: var(--bar-w);
+            height: var(--bar-h);
+            background: $white;
+            border-radius: 999px;
+            transition: transform .25s ease, opacity .2s ease, background .2s ease;
+            transform-origin: center;
+        }
+
+        &:hover { border-color: rgba($text-gray, .3); }
+        &:focus-visible { box-shadow: 0 0 0 3px rgba($brand-blue, .2); }
+    }
+
+    /* Turn into “X” when checked */
+    .nav-toggle:checked + .hamburger .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .nav-toggle:checked + .hamburger .bar:nth-child(2) { opacity: 0; }
+    .nav-toggle:checked + .hamburger .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    /* ==== Navigation panel ==== */
+    .site-nav {
+        position: fixed;
+        inset: 0; /* top:0; right:0; bottom:0; left:0 */
+        background: $brand-blue;
+        transform: translateX(100%);
+        transition: transform .35s ease;
+        z-index: 999;
+    }
+
+    /* Close button inside overlay */
+    .close-btn {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        font-size: 2rem;
+        line-height: 1;
+        cursor: pointer;
+        color: $white;
+        opacity: 0.8;
+        background: transparent;
+        border: none;
+        user-select: none;
+        transition: 0.3s linear all;
+
+        &:hover,
+        &:focus-visible { opacity: 1 }
+    }
+
+    .nav-list {
+        display: flex;
+        flex-direction: column;
+        padding: 5rem 0 .5rem 0;
+        margin: 0;
+        list-style: none;
+        gap: 15px;
+
+        a {
+            display: block;
+            padding: .75rem 0;
+            color: $white;
+            text-decoration: none;
+            font-weight: 500;
+
+            &:hover,
+            &:focus-visible { color: $brand-blue; }
+        }
+
+        .nav-contact {
+            max-width: 180px;
+            padding: 4px 10px;
+            margin-top: 1.5rem;
+        }
+    }
+
+    /* Expand when checked */
+    .nav-toggle:checked ~ .site-nav { transform: translateX(0); }
+
+    /* ==== Desktop styles ==== */
+    @media (min-width: 992px) {
+        .site-header {
+            grid-template-columns: auto 1fr;
+        }
+
+        .hamburger,
+        .nav-toggle { display: none; }
+
+        .site-nav {
+            grid-column: auto;
+            max-height: none;
+            border-top: 0;
+            background: transparent;
+        }
+
+        .nav-list {
+            flex-direction: row;
+            gap: 1.25rem;
+            align-items: center;
+
+            a { padding: .25rem 0; }
+
+            .cta {
+            margin-top: 0;
+            background: $accent-brown;
+
+            &:hover,
+            &:focus-visible { background: darken($accent-brown, 6%); }
+            }
+        }
+    }
+
+    /* ==== Reduced motion ==== */
+    @media (prefers-reduced-motion: reduce) {
+        .hamburger .bar,
+        .site-nav { transition: none; }
     }
 }
 

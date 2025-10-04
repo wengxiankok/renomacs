@@ -17,7 +17,7 @@
 			<div>
 				Logo
 			</div>
-			<div>
+			<div class="d-none d-lg-block">
 				<?php
 					$vals = array(
 						'theme_location' => 'primary-menu',
@@ -28,6 +28,32 @@
 					); wp_nav_menu( $vals );
 				?>
 			</div>	
+
+			<div class="d-block d-lg-none">
+				<!-- Hamburger toggle (visually a button, functionally a checkbox) -->
+				<input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true" />
+				<label for="nav-toggle" class="hamburger" aria-label="Toggle navigation" aria-controls="primary-nav" aria-expanded="false">
+					<span class="bar"></span>
+					<span class="bar"></span>
+					<span class="bar"></span>
+				</label>
+	
+				<nav id="primary-nav" class="site-nav container px-4" role="navigation" aria-label="Primary">
+					<label for="nav-toggle" class="close-btn" aria-label="Close navigation">✕</label>
+					<div class="pt-4">
+						Logo
+					</div>
+					<?php
+						$vals = array(
+							'theme_location' => 'primary-menu',
+							'container' => '',
+							'menu_class' => 'nav-list',
+							'depth' => 0,
+							'echo' => true,
+						); wp_nav_menu( $vals );
+					?>
+				</nav>
+			</div>
 		</div>
     </header>
     
