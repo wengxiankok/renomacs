@@ -4,6 +4,22 @@
   }
 }
 
+.invalid {
+  border-color: #dc3545 !important;
+}
+
+.error-text {
+  display: block;
+  color: #dc3545;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  margin-left: 0.25rem;
+}
+
+.form-check .error-text {
+  margin-left: 1.5rem;
+}
+
 .contact-form {
   display: flex;
 
@@ -39,7 +55,8 @@ $form-gap: 1.25rem;
   position: relative;
 
   input,
-  textarea {
+  textarea,
+  select {
     width: 100%;
     padding: 1rem .75rem .25rem;
     border: 1px solid $form-border;
@@ -77,6 +94,37 @@ $form-gap: 1.25rem;
     transition: all .2s ease;
     background: $form-bg;
     padding: 0 .25rem;
+  }
+
+  &.multiple-select {
+    label {
+      margin-bottom: 0.35rem;
+      font-size: .75rem;
+      color: $form-focus;
+      transition: color 0.25s;
+      top: .35rem;
+    }
+
+    select[multiple] {
+      width: 100%;
+      min-height: 8rem;
+      padding: 0.75rem;
+      border: 1px solid $form-border;
+      border-radius: $form-radius;
+      background: $form-bg;
+      font-size: 1rem;
+      outline: none;resize: vertical;
+      transition: border-color 0.25s, box-shadow 0.25s;
+
+      &:focus {
+        border-color: $form-focus;
+        box-shadow: 0 0 0 2px rgba($form-focus, 0.15);
+      }
+
+      option {
+        padding: 0.35rem 0.5rem;
+      }
+    }
   }
 }
 
@@ -152,5 +200,95 @@ $form-gap: 1.25rem;
 
   .btn-submit {
     width: 100%; /* full width button */
+  }
+}
+
+/* === Choices.js Field Styling (Match Input Fields) === */
+/* Hide the fake search input for multi-select */
+.choices__input.choices__input--cloned {
+  display: none !important;
+}
+
+.form-group.choices-select {
+  position: relative;
+
+  label {
+    top: .35rem;
+    font-size: .75rem;
+    color: $brand-blue;
+    z-index: 10;
+  }
+
+  // When Choices gains focus or has value, float label
+  .choices.is-focused + label,
+  .choices.is-open + label,
+  .choices.has-items + label {
+    top: .35rem;
+    font-size: .75rem;
+    color: $form-focus;
+  }
+}
+
+.choices {
+  margin-bottom: 1.5rem;
+
+  .choices__inner {
+    display: flex;
+    align-items: center;
+    min-height: 3rem;
+    padding: 0.75rem;
+    border: 1px solid $form-border;
+    border-radius: $form-radius;
+    background-color: $form-bg;
+    font-size: 1rem;
+    color: #333;
+    transition: border-color 0.25s ease;
+
+    &:focus-within {
+      border-color: $form-focus;
+      box-shadow: 0 0 0 2px rgba($form-focus, 0.15);
+    }
+  }
+
+  .choices__list--multiple .choices__item {
+    background-color: rgba($form-focus, 0.1);
+    border: 1px solid $form-focus;
+    border-radius: 1rem;
+    color: $form-focus;
+    font-size: 0.85rem;
+    padding: 0.25rem 0.75rem;
+    margin: 0.25rem 0.25rem 0 0;
+  }
+
+  .choices__list--dropdown {
+    border: 1px solid $form-border;
+    border-radius: $form-radius;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    margin-top: 0.25rem;
+
+    .choices__item {
+      padding: 0.6rem 0.75rem;
+      font-size: 1rem;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #f5f5f5;
+      }
+    }
+  }
+
+  .choices__placeholder {
+    opacity: 0.7;
+    color: #666;
+  }
+}
+
+.choices[data-type*=select-multiple] {
+
+  /* Override remove item button to black (or any color you prefer) */
+  .choices__button {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='21' height='21' viewBox='0 0 21 21'%3E%3Cg fill='%23000' fill-rule='evenodd'%3E%3Cpath d='M2.592.044L20.956 18.408l-2.548 2.548L.044 2.592z'/%3E%3Cpath d='M0 18.408L18.408 0l2.548 2.548L2.548 20.956z'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 8px; /* optional: make icon smaller/larger */
+    opacity: 0.75;        /* optional: slight transparency */
   }
 }

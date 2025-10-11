@@ -7,6 +7,7 @@
 	<?php
 		wp_head();
 	?>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"/>
 	<link rel="stylesheet" href="<?= bloginfo('template_url') ?>/assets/css/main.css">
 
 </head>

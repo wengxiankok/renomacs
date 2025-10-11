@@ -36,6 +36,7 @@
 
         <?php wp_footer(); ?>
         <script src="<?= bloginfo('template_url') ?>/assets/js/min/app.js" charset="utf-8"></script>
+        <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
     </body>
 

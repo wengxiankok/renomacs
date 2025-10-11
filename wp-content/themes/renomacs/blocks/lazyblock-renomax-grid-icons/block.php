@@ -1,7 +1,7 @@
 <section class="grid-icons">
     <div class="container py-20">
         <?php if ($attributes['section-header'] || $attributes['section-subheader'] || $attributes['section-description']) : ?>
-            <div class="text-center mb-5">
+            <div class="text-center mb-3">
                 <?php if ($attributes['section-header']) : ?>
                     <h2><?php echo $attributes['section-header'] ?></h2>
                 <?php endif; ?>
@@ -9,11 +9,13 @@
                     <h3><?php echo $attributes['section-subheader'] ?></h3>
                 <?php endif; ?>
                 <?php if ($attributes['section-description']) : ?>
-                    <?php echo $attributes['section-description'] ?>
+                    <div class="mb-2">
+                        <?php echo $attributes['section-description'] ?>
+                    </div>
                 <?php endif; ?>
             </div>
         <?php endif; ?>
-        <div class="row gap-4 gap-lg-0">
+        <div class="row gap-4 gap-lg-0 justify-content-center">
             <?php foreach ($attributes['grid-items'] as $item) : ?>
                 <div class="col-12 <?php if (count($attributes['grid-items']) === 3 ) : echo 'col-md-4' ; else : echo 'col-md-6' ; endif;  ?> text-center">
                     <?php
@@ -33,7 +35,7 @@
                         <p class="h5"><?php echo esc_html($item['title']); ?></p>
                     <?php endif; ?>
                     <?php if ($item['description']) : ?>
-                        <?php echo ($item['description']); ?>
+                        <?php echo wp_kses_post(strip_tags($item['description'], '<p><br><strong><em>')); ?>
                     <?php endif; ?>
                 </div>
             <?php endforeach; ?>
