@@ -12,21 +12,25 @@ window.addEventListener('DOMContentLoaded', function() {
     //     placeholderValue: 'Select services',
     //     searchEnabled: true,
     // });
-    // Pass single element
-    const element = document.querySelector('#services');
-    const choices = new Choices(element, {
-        removeItemButton: true,
-        searchEnabled: false,
-        placeholder: true,
-        placeholderValue: 'Select services...',
-        itemSelectText: '',
-        shouldSort: false,
-        searchChoices: false,
-    });
-
+    
     document.addEventListener('scroll', function() {
         shrinkNavigation();
     })
+
+    // Pass single element
+    const element = document.querySelector('#services');
+
+    if (element) {
+        const choices = new Choices(element, {
+            removeItemButton: true,
+            searchEnabled: false,
+            placeholder: true,
+            placeholderValue: 'Select services...',
+            itemSelectText: '',
+            shouldSort: false,
+            searchChoices: false,
+        });
+    } else return
 });
 
 function shrinkNavigation() {
