@@ -1,4 +1,4 @@
-<section class="card-section">
+<section <?php if ($attributes['custom-id']) : echo 'id="'. $attributes['custom-id'] .'"' ; endif;  ?> class="card-section">
     <div class="container py-20">
         <?php if ($attributes['section-header'] || $attributes['section-subheader'] || $attributes['section-description']) : ?>
             <div class="text-center mb-5">
@@ -13,9 +13,9 @@
                 <?php endif; ?>
             </div>
         <?php endif; ?>
-        <div class="row gap-4 justify-content-center">
+        <div class="row gap-4 gap-md-0 justify-content-center">
             <?php foreach ($attributes['cards'] as $card) : ?>
-                <div class="col-12 <?php if (count($attributes['cards']) > 3) : echo 'col-md-5 col-lg-4' ; elseif (count($attributes['cards']) === 3) : echo 'col-md-5 col-lg-3' ; elseif (count($attributes['cards']) > 1) : echo 'col-md-5' ; else : echo 'col-md-6' ; endif; ?>">
+                <div class="col-12 <?php if (count($attributes['cards']) > 3) : echo 'col-md-5 col-lg-4' ; elseif (count($attributes['cards']) === 3) : echo 'col-md-5 col-lg-4' ; elseif (count($attributes['cards']) > 1) : echo 'col-md-5' ; else : echo 'col-md-6' ; endif; ?>">
                     <div class="card h-auto">
                         <?php
                             if ($card['image']) :

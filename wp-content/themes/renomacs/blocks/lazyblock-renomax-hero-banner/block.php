@@ -1,6 +1,6 @@
-<section class="hero-banner-section">
+<section <?php if ($attributes['custom-id']) : echo 'id="'. $attributes['custom-id'] .'"' ; endif;  ?> class="hero-banner-section" <?php if ($attributes['banner-image']) : echo 'style="background-image: url(' . $attributes['banner-image']['url'] .');"' ; endif; ?>>
     <div class="container">
-        <div class="hero-banner" <?php if ($attributes['banner-image']) : echo 'style="background-image: url(' . $attributes['banner-image'] .');"' ; endif; ?>>
+        <div class="hero-banner">
             <div class="hero-content col-12 col-lg-8">
                 <h1><?php echo $attributes['header']; ?></h1>
                 <?php echo $attributes['description'] ?>

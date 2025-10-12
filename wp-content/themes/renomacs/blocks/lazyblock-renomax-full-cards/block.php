@@ -1,4 +1,4 @@
-<section class="fullcard-section fullcard">
+<section class="fullcard-section fullcard" <?php if ($attributes['custom-id']) : echo 'id="'. $attributes['custom-id'] .'"' ; endif;  ?>>
     <div class="container py-20">
         <?php if ($attributes['section-header'] || $attributes['section-subheader'] || $attributes['section-description']) : ?>
             <div class="text-center mb-5">

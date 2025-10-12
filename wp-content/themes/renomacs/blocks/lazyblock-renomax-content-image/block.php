@@ -1,4 +1,4 @@
-<section class="content-image-section">
+<section class="content-image-section" <?php if ($attributes['custom-id']) : echo 'id="'. $attributes['custom-id'] .'"' ; endif;  ?>>
     <div class="container py-20">
         <div class="row align-items-center gap-10">
             <?php if ($attributes['image']): ?>
