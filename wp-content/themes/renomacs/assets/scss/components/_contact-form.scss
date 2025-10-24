@@ -1,4 +1,5 @@
-.page-template-contact-form {
+.page-template-contact-form,
+.page-template-tnc-policy {
   header {
     background-color: $brand-blue;
   }
@@ -20,7 +21,8 @@
   margin-left: 1.5rem;
 }
 
-.contact-form {
+.contact-form, 
+.tnc-privacy {
   display: flex;
 
   .contact-wrapper {

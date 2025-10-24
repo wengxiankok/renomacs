@@ -8,9 +8,12 @@
                         </div>
                         <div class="pt-2">
                             <ul>
-                                <li>Address goes here</li>
-                                <li>Phone: (123) 456-7890</li>
-                                <li>Email:</li>
+                                <li>
+                                    <strong>JA SPACE SOLUTION (CA0388768-X)</strong><br/>
+                                    7, Jalan Putra Indah 9/30, <br/>Putra Heights, 47650 Subang Jaya, <br/>Selangor
+                                </li>
+                                <li>Phone: <a href="tel:+60139936857" target="_blank"><strong>+6013-9936857</strong></a></li>
+                                <li>Email: <a href="mailto:renomacs.gm@gmail.com" target="_blank"><strong>renomacs.gm@gmail.com</strong></a></li>
                             </ul>
                         </div>
                     </div>
