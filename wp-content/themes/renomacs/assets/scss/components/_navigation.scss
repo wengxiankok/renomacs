@@ -259,13 +259,14 @@ footer {
                 margin-top: auto;
             }
         }
-    }
 
-    .btn {
-        li a {
-            &:hover {
-                color: $white;
+        .btn {
+            li a {
+                &:hover {
+                    color: $white;
+                }
             }
         }
     }
+
 }
