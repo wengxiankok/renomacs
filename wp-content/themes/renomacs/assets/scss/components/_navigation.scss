@@ -260,4 +260,12 @@ footer {
             }
         }
     }
+
+    .btn {
+        li a {
+            &:hover {
+                color: $white;
+            }
+        }
+    }
 }
