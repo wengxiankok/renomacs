@@ -20,7 +20,7 @@
 <body <?php body_class(); ?>>
     <header>
 		<div class="d-flex flex-row justify-content-between container align-items-center">
-			<div>
+			<div class="logo-container">
 				<img class="nav-logo" src="<?php echo get_template_directory_uri() ?>/assets/img/renomacs-white.svg" />
 			</div>
 			<div class="d-none d-lg-block">

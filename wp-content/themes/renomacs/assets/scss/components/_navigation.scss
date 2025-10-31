@@ -8,10 +8,15 @@ header {
     border-bottom-right-radius: 20px;
     transition: 0.3s all ease;
 
-    .nav-logo {
-        width: 100px;
-        transition: 0.3s all ease;
+    .logo-container {
+        padding: 10px 0;
+
+        .nav-logo {
+            width: 60px;
+            transition: 0.3s all ease;
+        }
     }
+    
     
     .rm-navigation {
         display: flex;
@@ -57,7 +62,7 @@ header {
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
         .nav-logo {
-            width: 80px;
+            width: 50px;
         }
 
         .rm-navigation {
@@ -194,6 +199,15 @@ header {
             grid-template-columns: auto 1fr;
         }
 
+        .logo-container {
+            padding: 0;
+            
+            .nav-logo {
+                width: 100px;   
+            }
+        }
+
+
         .hamburger,
         .nav-toggle { display: none; }
 
@@ -219,6 +233,15 @@ header {
             &:focus-visible { background: darken($accent-brown, 6%); }
             }
         }
+
+        .logo-container {
+            padding: 15px 0;
+
+            .nav-logo {
+                width: 80px;
+            }
+        }
+        
     }
 
     /* ==== Reduced motion ==== */
@@ -231,6 +254,10 @@ header {
 footer {
     background-color: $text-gray;
     color: $white;
+
+    .footer-logo {
+        width: 70px;
+    }
 
     .contact-information {
         gap: 15px;
@@ -278,4 +305,9 @@ footer {
         }
     }
 
+    @media (min-width: 992px) {
+        .footer-logo {
+            width: 100px;
+        }
+    }
 }
