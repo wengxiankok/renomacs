@@ -3,7 +3,9 @@
                 <div class="container d-flex flex-column flex-lg-row justify-content-lg-between pt-5 pb-4">
                     <div class="d-flex flex-column contact-information">
                         <div class="d-flex justify-content-between align-items-center">
-                            <p class="h3 text-white">Renomax</p> <!-- Logo can go here -->
+                            <div>
+                                <img class="footer-logo" src="<?php echo get_template_directory_uri() ?>/assets/img/renomacs-white.svg" />
+                            </div>
                             <div class="btn btn-primary d-block d-lg-none">Get a Quote</div>
                         </div>
                         <div class="pt-2">
