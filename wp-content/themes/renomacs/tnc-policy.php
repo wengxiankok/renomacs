@@ -19,7 +19,7 @@
         </div>
     </section>
 
-    <div id="whatsapp-icon"></div>
+    <a href="https://wa.link/vw98jd" target="blank_"><div id="whatsapp-icon"></div></a>
     <div id="back-to-top"></div>
 <?php
     get_footer();

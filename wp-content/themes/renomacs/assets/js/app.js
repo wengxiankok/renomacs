@@ -31,6 +31,20 @@ window.addEventListener('DOMContentLoaded', function() {
             searchChoices: false,
         });
     } else return
+
+    const projectType = document.querySelector('#projecttype');
+
+    if (projectType) {
+        const choices = new Choices(projectType, {
+            removeItemButton: true,
+            searchEnabled: false,
+            placeholder: true,
+            placeholderValue: 'Select project type...',
+            itemSelectText: '',
+            shouldSort: false,
+            searchChoices: false,
+        });
+    } else return
 });
 
 function shrinkNavigation() {

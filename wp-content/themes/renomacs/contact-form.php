@@ -11,7 +11,15 @@ get_header();
 
 <section class="contact-form">
     <div class="container contact-wrapper">
-        <?php echo the_content(); ?>
+        <div class="content-wrapper">
+            <?php echo the_content(); ?>
+        </div>
+
+        <div class="thank-you-message d-none">
+            <h2>Thank you — Your enquiry has been sent!</h2>
+            <p>We have received your request and our team will review your details shortly.</p>
+            <p>A RenoMacs representative will contact you within 24 hours to confirm your project information or arrange a free site visit.</p>
+        </div>
 
         <form id="customForm" class="pt-3 form-grid">
             <div class="form-group">
@@ -35,7 +43,7 @@ get_header();
             </div>
 
             <div class="form-group choices-select">
-                <label for="services">Services required</label>
+                <label for="services">Services required (Select one or more)</label>
                 <select id="services" name="services[]" multiple>
                     <option value="Partition Installation">Partition Installation</option>
                     <option value="Electrical Wiring">Electrical Wiring</option>
@@ -46,9 +54,13 @@ get_header();
                 </select>
             </div>
 
-            <div class="form-group">
-                <input type="text" id="projecttype" name="projecttype">
+            <div class="form-group choices-select">
                 <label for="projecttype">Project type</label>
+                <select id="projecttype" name="projecttype[]" multiple>
+                    <option value="Residential">Residential</option>
+                    <option value="Commercial">Commercial</option>
+                    <option value="Industrial">Industrial</option>
+                </select>
             </div>
             
             <div class="form-group full-width">
@@ -74,7 +86,7 @@ get_header();
 
             <div class="form-check full-width">
                 <input type="checkbox" id="consent" name="consent" value="Yes" required>
-                <label for="consent" class="check-label">I consent*</label>
+                <label for="consent" class="check-label">*I consent to be contacted by RenoMacs regarding my enquiry via phone, WhatsApp, or email, for quotation and service purposes.</label>
             </div>
 
             <div class="form-actions full-width">
@@ -84,7 +96,10 @@ get_header();
     </div>
 
     <script>
-        const endpoint = '/renomacs/wp-json/custom/v1/contact'
+        /* Local */
+        // const endpoint = '../wp-json/custom/v1/contact'
+        /* Production */
+        const endpoint = '../wp-json/custom/v1/contact'
         const form = document.getElementById('customForm')
 
         function showError(input, message) {
@@ -110,6 +125,16 @@ get_header();
 
         function hideSpinner() {
             document.getElementById("form-spinner").classList.add("d-none");
+        }
+
+        function thankYouMessage() {
+            const contentWrapper = document.querySelector('.content-wrapper')
+            const form = document.getElementById('customForm')
+            const thankYouMessage = document.querySelector('.thank-you-message')
+
+            contentWrapper.classList.add('d-none')            
+            form.classList.add('d-none')
+            thankYouMessage.classList.remove('d-none')
         }
 
         form.addEventListener("submit", async function(e) {
@@ -183,6 +208,11 @@ get_header();
                 delete data['services[]']
             }
 
+            if (data['projecttype[]']) {
+                data.projecttype = data['projecttype[]']
+                delete data['projecttype[]']
+            }
+
             // const data = Object.fromEntries(formData.entries());
             data.consent = this.consent.checked ? "Yes" : "No";
 
@@ -196,10 +226,14 @@ get_header();
                 
                 const result = await response.json();
 
+                if (result && result.result === "success") {
+                    thankYouMessage(); // ✅ only show when success
+                }
+
                 this.reset();
                 
             } catch (err) {
-                alert("⚠️ Something went wrong while submitting.");
+                alert("⚠️ Something went wrong while contact us at <a href='telno:+6013-9936857' target='blank_'>+6013-993 6857</a> or <a href='wa.link/vw98jd' target='blank_'>WhatsApp</a> us.");
                 return
             } finally {
                 hideSpinner()
@@ -208,7 +242,7 @@ get_header();
     </script>
 </section>
 
-<div id="whatsapp-icon"></div>
+<a href="https://wa.link/vw98jd" target="blank_"><div id="whatsapp-icon"></div></a>
 <div id="back-to-top"></div>
 <?php
 get_footer();

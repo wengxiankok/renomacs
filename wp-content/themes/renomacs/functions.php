@@ -41,7 +41,7 @@ function rm_forward_contact_to_apps_script( WP_REST_Request $request ) {
   }
 
   // Forward to Apps Script
-  $apps_url = 'https://script.google.com/macros/s/AKfycbxkqdQrb_K6sBnLph0FF1K9CdA3JYjLY2iDLlnMEDBlSY9bbpB2MVEgMheFd_azA3v5-w/exec';
+  $apps_url = 'https://script.google.com/macros/s/AKfycbxJwrTCZ4ojG2Fg8IsYgt0MeFWafErBd-oPmFq90yIIp6UYzUp_PMm-2-YWDyUk-3GHcg/exec';
 
   error_log('wp json encode data sent to apps script: '. wp_json_encode($data));
   error_log('data sent to appls script: '. print_r($data, true));
