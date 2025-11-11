@@ -68,17 +68,26 @@ header {
         .rm-navigation {
             padding: 20px 0;
 
-            li.nav-contact {
-                border: solid 1px $cta-green;
-                background-color: $cta-green;
-                
+            li {
+
                 a {
-                    color: $white;
+                    &:hover {
+                        color: $cta-green;
+                    }
                 }
 
-                &:hover {
-                    border: solid 1px $brand-blue;
-                    background-color: $brand-blue;
+                &.nav-contact {
+                    border: solid 1px $cta-green;
+                    background-color: $cta-green;
+                    
+                    a {
+                        color: $white;
+                    }
+    
+                    // &:hover {
+                    //     border: solid 1px $brand-blue;
+                    //     background-color: $brand-blue;
+                    // }
                 }
             }
         }
@@ -199,15 +208,6 @@ header {
             grid-template-columns: auto 1fr;
         }
 
-        .logo-container {
-            padding: 0;
-            
-            .nav-logo {
-                width: 100px;   
-            }
-        }
-
-
         .hamburger,
         .nav-toggle { display: none; }
 
@@ -235,10 +235,20 @@ header {
         }
 
         .logo-container {
-            padding: 15px 0;
+            padding: 10px 0;
 
             .nav-logo {
                 width: 80px;
+            }
+        }
+
+        &.scrolled {
+            .logo-container {
+                padding: 0;
+
+                .nav-logo {
+                    width: 70px;
+                }
             }
         }
         

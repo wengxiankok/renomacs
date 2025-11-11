@@ -242,13 +242,18 @@ $form-gap: 1.25rem;
     border: 1px solid $form-border;
     border-radius: $form-radius;
     background-color: $form-bg;
-    font-size: 1rem;
+    font-size: 0.8rem;
     color: #333;
     transition: border-color 0.25s ease;
 
     &:focus-within {
       border-color: $form-focus;
       box-shadow: 0 0 0 2px rgba($form-focus, 0.15);
+    }
+
+    .choices__list--single {
+      padding: 0 !important;
+      padding-left: 4px !important;
     }
   }
 

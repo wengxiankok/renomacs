@@ -56,7 +56,7 @@ get_header();
 
             <div class="form-group choices-select">
                 <label for="projecttype">Project type</label>
-                <select id="projecttype" name="projecttype[]" multiple>
+                <select id="projecttype" name="projecttype[]">
                     <option value="Residential">Residential</option>
                     <option value="Commercial">Commercial</option>
                     <option value="Industrial">Industrial</option>
