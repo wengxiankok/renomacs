@@ -56,7 +56,8 @@ get_header();
 
             <div class="form-group choices-select">
                 <label for="projecttype">Project type</label>
-                <select id="projecttype" name="projecttype[]">
+                <select id="projecttype" name="projecttype">
+                    <option value="" selected disabled hidden>Select a project type</option>
                     <option value="Residential">Residential</option>
                     <option value="Commercial">Commercial</option>
                     <option value="Industrial">Industrial</option>
@@ -97,9 +98,9 @@ get_header();
 
     <script>
         /* Local */
-        // const endpoint = '../wp-json/custom/v1/contact'
-        /* Production */
         const endpoint = '../wp-json/custom/v1/contact'
+        /* Production */
+        // const endpoint = '../wp-json/custom/v1/contact'
         const form = document.getElementById('customForm')
 
         function showError(input, message) {
@@ -128,9 +129,16 @@ get_header();
         }
 
         function thankYouMessage() {
+            const contactWrapper = document.querySelector('.contact-wrapper')
+
             const contentWrapper = document.querySelector('.content-wrapper')
             const form = document.getElementById('customForm')
             const thankYouMessage = document.querySelector('.thank-you-message')
+
+            const footerHeight = document.querySelector('footer').offsetHeight
+
+            contactWrapper.style.height = `calc(100vh - ${footerHeight}px)`
+
 
             contentWrapper.classList.add('d-none')            
             form.classList.add('d-none')
@@ -188,6 +196,8 @@ get_header();
             if (!isValid) return;
 
             const formData = new FormData(this);
+            const RM_SECRET = "<?php echo RM_SECRET; ?>";
+            formData.append("secret", RM_SECRET);
             const data = {};
 
             formData.forEach((value, key) => {
@@ -208,11 +218,6 @@ get_header();
                 delete data['services[]']
             }
 
-            if (data['projecttype[]']) {
-                data.projecttype = data['projecttype[]']
-                delete data['projecttype[]']
-            }
-
             // const data = Object.fromEntries(formData.entries());
             data.consent = this.consent.checked ? "Yes" : "No";
 
@@ -226,6 +231,9 @@ get_header();
                 
                 const result = await response.json();
 
+                console.log(result);
+                console.log(result.result);
+
                 if (result && result.result === "success") {
                     thankYouMessage(); // ✅ only show when success
                 }
@@ -233,7 +241,7 @@ get_header();
                 this.reset();
                 
             } catch (err) {
-                alert("⚠️ Something went wrong while contact us at <a href='telno:+6013-9936857' target='blank_'>+6013-993 6857</a> or <a href='wa.link/vw98jd' target='blank_'>WhatsApp</a> us.");
+                alert("⚠️ Something went wrong, contact us at <a href='telno:+6013-9936857' target='blank_'>+6013-993 6857</a> or <a href='wa.link/vw98jd' target='blank_'>WhatsApp</a> us.");
                 return
             } finally {
                 hideSpinner()
