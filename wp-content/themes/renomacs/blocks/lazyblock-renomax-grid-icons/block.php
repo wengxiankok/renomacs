@@ -15,9 +15,9 @@
                 <?php endif; ?>
             </div>
         <?php endif; ?>
-        <div class="row gap-4 gap-lg-0 justify-content-center">
+        <div class="row pt-4 gap-4 gap-lg-0 justify-content-center">
             <?php foreach ($attributes['grid-items'] as $item) : ?>
-                <div class="col-12 <?php if (count($attributes['grid-items']) === 3 ) : echo 'col-md-4' ; else : echo 'col-md-6' ; endif;  ?> text-center">
+                <div class="col-12 <?php if (count($attributes['grid-items']) === 3 ) : echo 'col-md-4 mb-4' ; else : echo 'col-md-6 mb-4' ; endif;  ?> text-center">
                     <?php
                         if ($item['icon']) :
                             $lbPic = wp_get_attachment_metadata($item['icon']['id']);
