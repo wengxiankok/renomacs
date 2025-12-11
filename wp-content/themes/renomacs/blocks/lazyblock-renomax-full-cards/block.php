@@ -21,14 +21,14 @@
 
             $rows = array_chunk($cards, $chunkSize);
         ?>
-        <div class="row gap-4 justify-content-center">
+        <div class="row gap-lg-4 justify-content-center">
             <div class="fullcard__container">
                 <?php foreach ($rows as $i => $rowCards) : ?>
                     <?php
                         $rowCount = count($rowCards);
                         $minWidth = "calc(100% / {$rowCount})";
                     ?>
-                    <div class="row d-flex fullcard__row <?php if ($i > 0) : echo 'mt-4' ; endif; ?>">
+                    <div class="row d-flex fullcard__row <?php if ($i > 0) : echo 'mt-lg-4' ; endif; ?>">
                         <?php foreach ($rowCards as $card) : ?>
                             <div class="fullcard__wrapper px-0" style="min-width: <?php echo esc_attr($minWidth) ?>;">
                                 <?php if (!empty($card['image'])) :
