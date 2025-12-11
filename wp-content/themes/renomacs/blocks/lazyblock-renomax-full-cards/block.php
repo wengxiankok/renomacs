@@ -13,52 +13,52 @@
                 <?php endif; ?>
             </div>
         <?php endif; ?>
+        <?php 
+            $cards = $attributes['cards'];
+            $total = count($cards);
+
+            $chunkSize = ($total > 4) ? 3 : $total;
+
+            $rows = array_chunk($cards, $chunkSize);
+        ?>
         <div class="row gap-4 justify-content-center">
-            <div class="d-flex fullcard__container">
-                <?php foreach ($attributes['cards'] as $card) : ?>
-                    <!-- <div class="col-12 <?php if (count($attributes['cards']) > 3) : echo 'col-md-5 col-lg-4';
-                                            elseif (count($attributes['cards']) === 3) : echo 'col-md-5 col-lg-3';
-                                            elseif (count($attributes['cards']) > 1) : echo 'col-md-5';
-                                            else : echo 'col-md-6';
-                                            endif; ?>"> -->
-                    <div class="fullcard__wrapper" style="min-width: calc(100% / <?php echo count($attributes['cards']) ?>);">
-                        <?php
-                        if ($card['image']) :
-                            $lbPic = wp_get_attachment_metadata($card['image']['id']);
-                            echo '<img
-                                loading="lazy"
-                                src="' . esc_url($card['image']['url']) . '"
-                                alt="' . esc_attr($card['image']['alt']) . '"
-                                width="' . ($lbPic['width'] ?: '100') . '"
-                                height="' . ($lbPic['height'] ?: '100') . '"
-                                class="fullcard__wrapper-img img-fluid"
-                                "
-                            >';
-                        endif;
-                        ?>
-                        <div class="fullcard__wrapper-content p-4" style="position: absolute; bottom: 0;">
-                            <?php if ($card['card-title']) : ?>
-                                <p class="h5 card-title"><?php echo esc_html($card['card-title']); ?></p>
-                            <?php endif; ?>
-                            <?php if ($card['card-description']) : ?>
-                                <div class="card-text"><?php echo ($card['card-description']); ?></div>
-                            <?php endif; ?>
-                        </div>
-                        <!-- <div class="card-body d-flex flex-column flex-grow-1 flex-shrink-0">
-                        <?php if ($card['card-title']) : ?>
-                            <p class="h5 card-title"><?php echo esc_html($card['card-title']); ?></p>
-                        <?php endif; ?>
-                        <?php if ($card['card-description']) : ?>
-                            <div class="card-text"><?php echo ($card['card-description']); ?></div>
-                        <?php endif; ?>
-                        <?php if ($card['cta-link']): ?>
-                            <div class="mt-2">
-                                <a href="<?php echo $card['cta-link']; ?>" class="btn btn-primary"><?php echo $card['cta-text']; ?></a>
+            <div class="fullcard__container">
+                <?php foreach ($rows as $i => $rowCards) : ?>
+                    <?php
+                        $rowCount = count($rowCards);
+                        $minWidth = "calc(100% / {$rowCount})";
+                    ?>
+                    <div class="row d-flex fullcard__row <?php if ($i > 0) : echo 'mt-4' ; endif; ?>">
+                        <?php foreach ($rowCards as $card) : ?>
+                            <div class="fullcard__wrapper px-0" style="min-width: <?php echo esc_attr($minWidth) ?>;">
+                                <?php if (!empty($card['image'])) :
+                                    $lbPic = wp_get_attachment_metadata($card['image']['id']);
+                                    echo '<img
+                                        loading="lazy"
+                                        src="' . esc_url($card['image']['url']) . '"
+                                        alt="' . esc_attr($card['image']['alt']) . '"
+                                        width="' . ($lbPic['width'] ?: '100') . '"
+                                        height="' . ($lbPic['height'] ?: '100') . '"
+                                        class="fullcard__wrapper-img img-fluid"
+                                        "
+                                    >';
+                                endif; ?>
+
+                                <div class="fullcard__wrapper-content p-4" style="position: absolute; bottom: 0;">
+                                    <?php if ($card['card-title']) : ?>
+                                        <p class="h5 card-title"><?php echo esc_html($card['card-title']); ?></p>
+                                    <?php endif; ?>
+                                    <?php if ($card['card-description']) : ?>
+                                        <div class="card-text"><?php echo ($card['card-description']); ?></div>
+                                    <?php endif; ?>
+                                </div>
                             </div>
-                        <?php endif; ?>
-                    </div> -->
+                        <?php endforeach; ?>
                     </div>
-                <?php endforeach; ?>
+                <?php
+                    endforeach;
+                ?>
+                
             </div>
         </div>
     </div>

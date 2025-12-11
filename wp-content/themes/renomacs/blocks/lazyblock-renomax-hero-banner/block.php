@@ -10,7 +10,7 @@
                     <?php endif; ?>
 
                     <?php if ($attributes['secondary-cta-link'] ): ?>
-                        <a href="<?php echo $attributes['secondary-cta-link']; ?>" class="btn btn-secondary"><?php echo $attributes['secondary-cta-text']; ?></a>
+                        <a href="<?php echo $attributes['secondary-cta-link']; ?>" class="btn btn-secondary btn-secondary-full"><?php echo $attributes['secondary-cta-text']; ?></a>
                     <?php endif; ?>
                 </div>
             </div>

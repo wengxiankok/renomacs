@@ -17,7 +17,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(105, 105, 105, 0.45); /* Overlay color */
+            background: rgba(105, 105, 105, 0.75); /* Overlay color */
             z-index: 1;
         }
     }
@@ -164,7 +164,7 @@
         &.is-hovered {
             flex: 3;
             z-index: 3;
-            min-width: 60% !important;
+            min-width: 40% !important;
 
             .fullcard__img {
                 transform: scale(1.05);
@@ -180,11 +180,13 @@
         &.is-dimmed {
             flex: 0.5;
             z-index: 1;
-            min-width: 10% !important;
+            min-width: 30% !important;
 
             .fullcard__wrapper-content {
-                visibility: hidden;
-                opacity: 0;
+                .card-text {
+                    visibility: hidden;
+                    opacity: 0;
+                }
             }
         }
 
