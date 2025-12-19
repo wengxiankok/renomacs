@@ -315,6 +315,17 @@ footer {
         }
     }
 
+    .footer-social-icons {
+        img {
+            width: 35px;
+            transition: 0.3s all ease;
+
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+    }
+
     @media (min-width: 992px) {
         .footer-logo {
             width: 100px;

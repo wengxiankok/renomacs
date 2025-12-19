@@ -32,6 +32,15 @@
                     </div>
                 </div>
                 <div>
+                    <div class="container pt-lg-0 pb-5 d-flex align-items-center">
+                        <p><strong>Follow us:</strong></p>
+                        <div class="footer-social-icons">
+                            <ul class="d-flex flex-row ps-3 ps-lg-4">
+                                <li><a href="https://web.facebook.com/profile.php?id=61557681581131" target="_blank"><img src="<?php echo get_template_directory_uri() ?>/assets/img/facebook-svgrepo-com.svg" alt="facebook-icon" /></a></li>
+                                <li><a href="https://www.instagram.com/renomacs141319?igsh=cjhkdHZ5cTRubnZw" target="_blank"><img src="<?php echo get_template_directory_uri() ?>/assets/img/instagram-svgrepo-com.svg" alt="instagram-icon" /></a></li>
+                            </ul>
+                        </div>
+                    </div>
                     <div class="container text-lg-end pt-3 pt-lg-0 pb-3 pb-lg-5">
                         <p class="text-white mb-0">© <?php echo date("Y"); ?> Renomax. All rights reserved.</p>
                     </div>
