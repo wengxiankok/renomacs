@@ -97,10 +97,7 @@ get_header();
     </div>
 
     <script>
-        /* Local */
-        const endpoint = '../wp-json/custom/v1/contact'
-        /* Production */
-        // const endpoint = '../wp-json/custom/v1/contact'
+        const endpoint = <?php echo wp_json_encode(rest_url('custom/v1/contact')); ?>;
         const form = document.getElementById('customForm')
 
         function showError(input, message) {
@@ -196,8 +193,6 @@ get_header();
             if (!isValid) return;
 
             const formData = new FormData(this);
-            const RM_SECRET = "<?php echo RM_SECRET; ?>";
-            formData.append("secret", RM_SECRET);
             const data = {};
 
             formData.forEach((value, key) => {

@@ -1,0 +1,5 @@
+# Scripts mounted into Linux containers must use LF line endings.
+/dev/local/*.sh text eol=lf
+/dev/local/*.php text eol=lf
+/dev/local/tests/*.php text eol=lf
+/compose.yaml text eol=lf

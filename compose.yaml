@@ -1,0 +1,84 @@
+name: renomacs-local
+
+x-wordpress-environment: &wordpress-environment
+  WORDPRESS_DB_HOST: db:3306
+  WORDPRESS_DB_NAME: renomacs_local
+  WORDPRESS_DB_USER: renomacs_local
+  WORDPRESS_DB_PASSWORD: ${RM_DB_PASSWORD:?Run scripts/start-local.ps1 first}
+  WORDPRESS_DEBUG: "1"
+  RM_LOCAL_URL: http://localhost:${RM_LOCAL_PORT:-8080}
+  RM_LOCAL_CONTACT_RESULT: ${RM_LOCAL_CONTACT_RESULT:-success}
+  WORDPRESS_CONFIG_EXTRA: |
+    define('WP_ENVIRONMENT_TYPE', 'local');
+    define('RM_LOCAL_PREVIEW', true);
+    define('WP_HOME', getenv('RM_LOCAL_URL'));
+    define('WP_SITEURL', getenv('RM_LOCAL_URL'));
+    define('DISABLE_WP_CRON', true);
+    define('DISALLOW_FILE_EDIT', true);
+    define('WP_DEBUG_DISPLAY', false);
+    define('WP_DEBUG_LOG', '/tmp/renomacs-debug.log');
+
+x-wordpress-volumes: &wordpress-volumes
+  - wordpress_data:/var/www/html
+  - ./wp-content/themes/renomacs:/var/www/html/wp-content/themes/renomacs:ro
+  - ./dev/local/preview.php:/var/www/html/wp-content/mu-plugins/renomacs-local.php:ro
+  - ./dev/local:/opt/renomacs:ro
+  - ./favicon.ico:/var/www/html/favicon.ico:ro
+  - ./favicon-16x16.png:/var/www/html/favicon-16x16.png:ro
+  - ./favicon-32x32.png:/var/www/html/favicon-32x32.png:ro
+  - ./apple-touch-icon.png:/var/www/html/apple-touch-icon.png:ro
+  - ./android-chrome-192x192.png:/var/www/html/android-chrome-192x192.png:ro
+  - ./android-chrome-512x512.png:/var/www/html/android-chrome-512x512.png:ro
+  - ./site.webmanifest:/var/www/html/site.webmanifest:ro
+
+services:
+  db:
+    image: mariadb:11.4
+    environment:
+      MARIADB_DATABASE: renomacs_local
+      MARIADB_USER: renomacs_local
+      MARIADB_PASSWORD: ${RM_DB_PASSWORD:?Run scripts/start-local.ps1 first}
+      MARIADB_ROOT_PASSWORD: ${RM_DB_ROOT_PASSWORD:?Run scripts/start-local.ps1 first}
+    volumes:
+      - database_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  wordpress:
+    image: wordpress:7.1.3-php8.3-apache
+    ports:
+      - "127.0.0.1:${RM_LOCAL_PORT:-8080}:80"
+    environment: *wordpress-environment
+    volumes: *wordpress-volumes
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "php", "-r", "exit(is_file('/var/www/html/wp-config.php') && @fsockopen('127.0.0.1', 80) ? 0 : 1);"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  cli:
+    image: wordpress:cli-2.12.0-php8.3
+    profiles: ["tools"]
+    user: "33:33"
+    working_dir: /var/www/html
+    entrypoint: ["wp"]
+    command: ["--info"]
+    environment:
+      <<: *wordpress-environment
+      RM_LOCAL_ADMIN_PASSWORD: ${RM_LOCAL_ADMIN_PASSWORD:?Run scripts/start-local.ps1 first}
+    volumes: *wordpress-volumes
+    depends_on:
+      wordpress:
+        condition: service_healthy
+
+volumes:
+  database_data:
+  wordpress_data:
