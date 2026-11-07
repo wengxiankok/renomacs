@@ -1,0 +1,17 @@
+# Local development configuration and data.
+.env
+.env.*
+!.env.example
+.local/
+node_modules/
+*.log
+
+# WordPress runtime and site exports are not theme source.
+/wp-admin/
+/wp-includes/
+/wp-config.php
+/wp-content/plugins/
+/wp-content/mu-plugins/
+/wp-content/uploads/
+*.sql
+*.sql.gz
