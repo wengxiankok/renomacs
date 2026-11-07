@@ -1,8 +1,10 @@
 # Recovering the real site for local development
 
-The theme repository is not a complete WordPress site backup. The current local
-homepage and policy pages are fixtures. Import is pending a backup from the
-existing developer; no production data has been imported.
+Historical recovery request and intake procedure. Public pages, menus, Lazy Blocks
+definitions and required media have since been restored locally. See
+[current recovery status](content-recovery-status.md); do not repeat this request
+as though those assets were still missing. Production configuration, deployed-theme
+comparison and staging enquiry integration remain separate verification work.
 
 ## Request to the existing developer
 

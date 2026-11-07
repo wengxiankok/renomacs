@@ -46,11 +46,12 @@ inside containers: edit it in your IDE, then refresh the browser.
 - Clearly labelled sample home/contact/policy pages and menus.
 - A local-only enquiry simulator, with no external delivery or enquiry storage.
 
-The sample homepage uses the existing text-page template. It is **not a redesign or
-a reconstruction of the live homepage**. A faithful copy still requires a sanitized
-database export, uploaded photos, the required plugins, and Lazy Blocks field/block
-definitions. These are not in Git. Do not import production credentials or personal
-enquiry data. The seed command refuses to populate an unrecognized existing site.
+On a fresh checkout, the sample homepage uses the existing text-page template.
+The restored developer volumes instead contain the recovered public pages, media
+and Lazy Blocks definitions/plugin. These are not in Git; see the
+[recovery status](docs/content-recovery-status.md). Neither setup reproduces all
+production settings. Do not import production credentials or personal enquiry data.
+The seed command refuses to populate an unrecognized existing site.
 
 WordPress and WP-CLI image versions are explicit. The MariaDB 11.4 tag follows that
 maintenance series; this is a development baseline, not a proven production match.
@@ -70,10 +71,9 @@ Use invented details. To simulate an upstream failure, set
 docker compose up -d --wait wordpress
 ```
 
-Set it back to `success` to restore simulated success. The existing form's silent
-failure/reset bug is not fixed by this setup; the error mode lets us reproduce it
-locally in the next work item. Smoke checks test both simulator outcomes and the
-HTTP/mail guards, not browser behavior or real enquiry delivery.
+Set it back to `success` to restore simulated success. The form now retains entered
+details and displays an error on failure. Smoke checks test both simulator outcomes
+and the HTTP/mail guards, not browser behavior or real enquiry delivery.
 
 The guards cover WordPress HTTP/mail APIs, not arbitrary custom network code.
 Browser requests are not intercepted: Choices.js still loads from its CDN, and
@@ -83,8 +83,9 @@ blocked; recover plugins separately when we prepare a faithful site copy.
 
 ## Useful commands
 
-The detailed [local QA baseline](docs/local-qa-baseline.md) records executed checks,
-known failures, and the next delivery slices. Run the HTTP regression checks with:
+The [release readiness](docs/release-readiness.md) records current gates; the
+[local QA baseline](docs/local-qa-baseline.md) is a historical pre-fix assessment.
+Run the HTTP regression checks with:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\test-local.ps1
@@ -131,6 +132,9 @@ review, staging and publishing gates. Production secret rotation, cached-copy
 cleanup, and deployment require a coordinated later release.
 
 ## V2 checkpoint and review
+
+See [merge release notes](docs/v2-merge-release-notes.md) for the full comparison
+against `main`, self-review findings and validation boundaries.
 
 This branch is a review checkpoint, not a production release. The
 [website evaluation](docs/website-evaluation-2026-11-08.md) records remaining

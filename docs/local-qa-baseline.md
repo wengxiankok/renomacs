@@ -2,6 +2,10 @@
 
 ## Decision
 
+Historical baseline at `be7e9b2`, before enquiry hardening and content recovery.
+Its failure findings are not all current. Use [release readiness](release-readiness.md)
+for current gates and [merge notes](v2-merge-release-notes.md) for implemented changes.
+
 The Docker setup is usable for controlled development and regression testing.
 The current theme is **not ready for a production v2 release**. In particular, the
 form loses entered details on a server error and gives no useful feedback.
