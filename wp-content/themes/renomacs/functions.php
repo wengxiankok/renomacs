@@ -19,160 +19,91 @@ add_action('rest_api_init', function() {
   ]);
 });
 
-// function rm_forward_contact_to_apps_script( WP_REST_Request $request ) {
-//   // Basic server-side validation (adjust fields as needed)
-//   $data = $request->get_json_params();
-//   if (empty($data)) {
-//     $data = $request->get_params();
-//   }
-  
-//   // Add the secret server-side (never exposed to client)
-//   $data['secret'] = defined('RM_SECRET') ? RM_SECRET : '';
+// Return only our public contract; never expose upstream payloads or credentials.
+function rm_contact_error($status, $message) {
+    return new WP_REST_Response(['result' => 'error', 'message' => $message], $status);
+}
 
-//   // Validate required fields server-side (prevent spam)
-//   $required = ['fullname', 'email', 'contact'];
-//   foreach ($required as $field) {
-//     if (empty($data[$field])) {
-//       return rest_ensure_response([
-//         'result' => 'error',
-//         'message' => "Missing required field: $field"
-//       ]);
-//     }
-//   }
+function rm_contact_url_allowed($url, $host) {
+    $parts = is_string($url) ? wp_parse_url($url) : false;
+    return $parts && ($parts['scheme'] ?? '') === 'https'
+        && ($parts['host'] ?? '') === $host
+        && !isset($parts['user']) && !isset($parts['pass']) && !isset($parts['port']);
+}
 
-//   // Forward to Apps Script
-//   $apps_url = APPS_SCRIPT_URL;
-
-//   error_log('wp json encode data sent to apps script: '. wp_json_encode($data));
-//   error_log('data sent to appls script: '. print_r($data, true));
-
-//   // $args = [
-//   //   'headers' => ['Accept' => 'application/json', 'Content-Type' => 'application/json'],
-//   //   'body'    => wp_json_encode($data),
-//   //   'timeout' => 30,
-//   //   'redirection' => 5,
-//   //   'sslverify' => false,
-//   // ];
-//   $args = [
-//     'body'    => $data, // form-encoded
-//     'timeout' => 30,
-//     'redirection' => 5,
-//     'sslverify' => false,
-//   ];
-
-//   error_log('raw wp remote post args: ' . print_r($args, true));
-//   error_log('Sending POST to: ' . $apps_url);
-
-//   $args['body'] = wp_json_encode($data);
-//   $args['headers']['Content-Type'] = 'application/json';
-//   $resp = wp_remote_post( $apps_url, $args );
-
-//   if ( is_wp_error($resp) ) {
-//     return rest_ensure_response([ 'result' => 'error', 'message' => $resp->get_error_message() ]);
-//   }
-
-//   $code = wp_remote_retrieve_response_code($resp);
-//   $headers = wp_remote_retrieve_headers($resp);
-//   if (in_array($code, [301, 302])) {
-//     $headers = wp_remote_retrieve_headers($resp);
-//     if (!empty($headers['location'])) {
-//       $redirected_url = $headers['location'];
-//       error_log('Following redirect to: ' . $redirected_url);
-//       $resp = wp_remote_post($redirected_url, $args);
-//     }
-//   }
-
-//   $body = wp_remote_retrieve_body($resp);
-//   error_log('Apps Script raw response: ' . $body);
-
-// //   $decoded = json_decode($body, true);
-// //   error_log('Apps Script decoded: ' . print_r($decoded, true));
-
-// //   // Optionally return the Apps Script response (or translate)
-// //   return rest_ensure_response( $decoded ?: [ 'result' => 'error', 'message' => 'No response from Apps Script' ] );
-// // }
-//   $decoded = json_decode($body, true);
-//   error_log('Apps Script decoded: ' . print_r($decoded, true));
-
-//   // If Apps Script returned *HTML*, treat it as success if HTTP code is 200
-//   if (!$decoded && $code === 200 && !empty($body)) {
-//       return rest_ensure_response([
-//           'result' => 'success',
-//           'message' => 'Apps Script returned non-JSON but HTTP 200'
-//       ]);
-//   }
-
-//   return rest_ensure_response($decoded);
-// }
-function rm_forward_contact_to_apps_script( WP_REST_Request $request ) {
-
-    // Parse input
-    $data = $request->get_json_params();
-    if (empty($data)) {
-        $data = $request->get_params();
+function rm_forward_contact_to_apps_script(WP_REST_Request $request) {
+    if (strlen((string) $request->get_body()) > 20000) {
+        return rm_contact_error(413, 'Your enquiry is too long. Please shorten it.');
     }
-
-    // Secret (server)
-    $data['secret'] = defined('RM_SECRET') ? RM_SECRET : '';
-
-    // Validation
-    foreach (['fullname','email','contact'] as $field) {
-        if (empty($data[$field])) {
-            return rest_ensure_response([
-                'result' => 'error',
-                'message' => "Missing required field: $field"
-            ]);
+    $input = $request->get_json_params();
+    if ($input === null) { $input = $request->get_body_params(); }
+    if (!is_array($input)) { return rm_contact_error(400, 'Invalid enquiry.'); }
+    $data = [];
+    $limits = ['fullname' => 150, 'company' => 200, 'email' => 254, 'contact' => 30,
+        'address' => 1000, 'budget' => 100, 'startdate' => 10, 'description' => 5000,
+        'projecttype' => 30, 'consent' => 3];
+    foreach ($limits as $field => $limit) {
+        $value = $input[$field] ?? '';
+        if (!is_string($value) || strlen($value) > $limit) {
+            return rm_contact_error(400, 'Please check the enquiry fields and their length.');
+        }
+        $data[$field] = $field === 'description' ? sanitize_textarea_field($value) : sanitize_text_field($value);
+    }
+    $digits = preg_replace('/\D/', '', $data['contact']);
+    if ($data['fullname'] === '' || !is_email($data['email'])
+        || !preg_match('/^\+?[0-9 ()-]+$/', $data['contact'])
+        || strlen($digits) < 6 || strlen($digits) > 15 || $data['consent'] !== 'Yes') {
+        return rm_contact_error(400, 'Please provide your name, a valid email and phone number, and consent.');
+    }
+    if (!in_array($data['projecttype'], ['', 'Residential', 'Commercial', 'Industrial'], true)) {
+        return rm_contact_error(400, 'Please select a valid project type.');
+    }
+    if ($data['startdate'] !== '') {
+        $date = DateTime::createFromFormat('!Y-m-d', $data['startdate']);
+        if (!$date || $date->format('Y-m-d') !== $data['startdate']) {
+            return rm_contact_error(400, 'Please select a valid start date.');
         }
     }
-
-    error_log("WP → Apps Script FORM DATA: " . print_r($data, true));
-
-    // FIRST request: POST (Apps Script will return 302)
-    $response = wp_remote_post(APPS_SCRIPT_URL, [
-        'body'       => $data,          // ← form-encoded
-        'timeout'    => 20,
-        'sslverify'  => false,
-        'redirection'=> 0               // ← DO NOT follow automatically
-    ]);
-
-    if (is_wp_error($response)) {
-        return rest_ensure_response([
-            'result' => 'error',
-            'message' => $response->get_error_message()
-        ]);
+    $services = $input['services'] ?? [];
+    $allowed = ['Partition Installation', 'Electrical Wiring', 'Water Piping', 'Tiling Works', 'Painting', 'Plaster Ceiling'];
+    if (!is_array($services) || count($services) > count($allowed)) {
+        return rm_contact_error(400, 'Please select valid services.');
     }
-
-    $code    = wp_remote_retrieve_response_code($response);
-    $headers = wp_remote_retrieve_headers($response);
-
-    // Handle redirect manually
-    if ($code === 302 && !empty($headers['location'])) {
-
-        $redirect_url = $headers['location'];
-        error_log("Following redirect → $redirect_url");
-
-        // SECOND request: GET the redirected JSON
-        $response = wp_remote_get($redirect_url, [
-            'timeout'   => 20,
-            'sslverify' => false
-        ]);
+    foreach ($services as $service) {
+        if (!is_string($service) || !in_array($service, $allowed, true)) {
+            return rm_contact_error(400, 'Please select valid services.');
+        }
     }
-
-    // Extract final body
-    $body = wp_remote_retrieve_body($response);
-    error_log("Apps Script FINAL BODY: $body");
-
-    // Parse JSON
-    $decoded = json_decode($body, true);
-
-    if (!$decoded) {
-        return rest_ensure_response([
-            'result' => 'error',
-            'message' => 'Invalid JSON from Apps Script'
-        ]);
+    $data['services'] = array_values(array_unique($services));
+    if (!defined('RM_SECRET') || !is_string(RM_SECRET) || RM_SECRET === ''
+        || !defined('APPS_SCRIPT_URL') || !rm_contact_url_allowed(APPS_SCRIPT_URL, 'script.google.com')
+        || !preg_match('~^/macros/s/[^/]+/exec$~', wp_parse_url(APPS_SCRIPT_URL, PHP_URL_PATH) ?? '')) {
+        return rm_contact_error(503, 'Enquiries are temporarily unavailable. Please contact us directly.');
     }
-
-    // SUCCESS
-    return rest_ensure_response($decoded);
+    // Best-effort abuse control, not an atomic quota or delivery deduplication.
+    // Trust only REMOTE_ADDR; hosting proxy configuration must be reviewed before release.
+    $key = 'rm_contact_' . hash_hmac('sha256', $_SERVER['REMOTE_ADDR'] ?? 'unknown', wp_salt('auth'));
+    $attempts = (int) get_transient($key);
+    if ($attempts >= 5) { return rm_contact_error(429, 'Please wait before sending another enquiry.'); }
+    set_transient($key, $attempts + 1, 10 * MINUTE_IN_SECONDS);
+    $data['secret'] = RM_SECRET;
+    $options = ['timeout' => 20, 'sslverify' => true, 'redirection' => 0, 'limit_response_size' => 65536];
+    $response = wp_safe_remote_post(APPS_SCRIPT_URL, array_merge($options, ['body' => $data]));
+    if (!is_wp_error($response) && wp_remote_retrieve_response_code($response) === 302) {
+        $location = wp_remote_retrieve_header($response, 'location');
+        if (!rm_contact_url_allowed($location, 'script.googleusercontent.com')) {
+            return rm_contact_error(502, 'We could not confirm delivery. Please contact us directly before retrying.');
+        }
+        // Content Service redirects to a one-time read URL. Never send the secret on this GET.
+        $response = wp_safe_remote_get($location, $options);
+    }
+    if (is_wp_error($response) || wp_remote_retrieve_response_code($response) < 200
+        || wp_remote_retrieve_response_code($response) >= 300) {
+        return rm_contact_error(502, 'We could not confirm delivery. Please contact us directly before retrying.');
+    }
+    $decoded = json_decode(wp_remote_retrieve_body($response), true);
+    if (!is_array($decoded) || ($decoded['result'] ?? '') !== 'success') {
+        return rm_contact_error(502, 'We could not confirm delivery. Please contact us directly before retrying.');
+    }
+    return new WP_REST_Response(['result' => 'success'], 200);
 }
-?>

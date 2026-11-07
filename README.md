@@ -4,6 +4,12 @@ This repository contains the custom WordPress theme, not the full live website.
 Work on `renomacs/v2` is local until explicitly committed and pushed. A Git push
 does not itself establish a deployment process; no deployment workflow is configured here.
 
+The current developer Docker volumes now contain the four recovered public pages,
+menus, Lazy Blocks definitions and uploaded media (7 November 2026). These data are
+not committed to Git: a fresh checkout still starts with sample content. Keep the
+existing volumes and ignored import files. See [recovery status](docs/content-recovery-status.md)
+for verification results and remaining visual review.
+
 ## Start the local preview on Windows
 
 1. Install [Docker Desktop for Windows](https://docs.docker.com/desktop/setup/install/windows-install/)
@@ -77,6 +83,13 @@ blocked; recover plugins separately when we prepare a faithful site copy.
 
 ## Useful commands
 
+The detailed [local QA baseline](docs/local-qa-baseline.md) records executed checks,
+known failures, and the next delivery slices. Run the HTTP regression checks with:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\test-local.ps1
+```
+
 ```powershell
 # Check status or logs (review logs before sharing).
 docker compose ps
@@ -112,6 +125,28 @@ Committed compiled assets support the initial preview. JavaScript rebuilds later
 require Node/npm and `npm ci` followed by `npx gulp build` inside the theme directory.
 There is no Sass compiler/task yet; `gulp build` does **not** compile SCSS.
 
-Next: fix server-side secret logging/TLS/validation and enquiry response handling,
-then form recovery and measurement, followed by mobile UI/accessibility. Production
-secret rotation, cached-copy cleanup, and deployment require a coordinated later release.
+Local enquiry hardening and recovery are implemented; see
+[release readiness](docs/release-readiness.md) for test evidence and remaining
+review, staging and publishing gates. Production secret rotation, cached-copy
+cleanup, and deployment require a coordinated later release.
+
+## V2 checkpoint and review
+
+This branch is a review checkpoint, not a production release. The
+[website evaluation](docs/website-evaluation-2026-11-08.md) records remaining
+navigation, accessibility, content and SEO defects. Review those and the enquiry
+integration contract before merging into `main`; a passing local simulator does
+not prove actual lead delivery.
+
+Additional regression checks:
+
+```powershell
+docker compose run --rm cli eval-file /opt/renomacs/tests/contact-handler.php
+docker compose run --rm cli eval-file /opt/renomacs/tests/recovered-content.php
+node dev/local/tests/contact-form.test.cjs
+```
+
+The recovered-content check requires the restored local content/media; it will
+not pass against a fresh sample-only setup. Node is needed only for the frontend
+test/build tooling. Production exports and media are deliberately absent from
+Git, so pushing this branch does not back up the restored Docker database/uploads.
